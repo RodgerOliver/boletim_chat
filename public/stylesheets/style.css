@@ -1,0 +1,60 @@
+/* NavBar Hover */
+a.nav-item.nav-link:hover {
+	font-weight: bold;
+}
+
+/* Align Table Content */
+.table input[type="number"] {
+	text-align: center;
+	margin: 0 auto;
+}
+
+.table td, .table th[scope="col"]:not(#disciplina) {
+	text-align: center;
+}
+
+.table td, .table th {
+	vertical-align: middle;
+}
+
+/* Full Witdh Input */
+.table {
+	height: 0px!important;
+	font-size: 1.2em;
+}
+
+.table td {
+	padding: 0;
+	border-right: 1px solid #ced4da;
+	border-left: 1px solid #ced4da;
+}
+
+.table input {
+	height: 100%!important;
+	width: 100%;
+	outline: 0;
+	border-radius: 0;
+	border: none;
+	font-weight: bold;
+}
+
+.table input:focus {
+	background-color: #fff4d4;
+}
+
+.table-striped input:nth-of-type(odd) {
+	background-color: rgba(0,0,0,0);
+}
+
+.table tr:last-child {
+	border-bottom: 1px solid #dee2e6;
+}
+
+.low {
+	background-color: #ff3f3f!important;
+	color: #fff;
+}
+
+.high {
+	background-color: #51e377!important;
+}

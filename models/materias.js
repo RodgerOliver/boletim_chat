@@ -1,0 +1,20 @@
+module.exports = {
+	"edfisica":		"Educação Física",
+	"matematica":	"Matemática",
+	"biologia":		"Biologia",
+	"fisica":		"Física",
+	"quimica":		"Quimica",
+	"historia":		"História",
+	"geografia":	"Geografia",
+	"espanhol":		"Espanhol",
+	"ingles":		"Inglês",
+	"filosofia":	"Filosofia",
+	"sociologia":	"Sociologia",
+	"pt":			"Produção Textual",
+	"religiao":		"Ensino Religioso",
+	"atualidades":	"Atualidades",
+	"ov":			"Orientação Vocacional",
+	"literatura":	"Literatura",
+	"gramatica":	"Gramática",
+	"redacao":		"Redação"
+}
