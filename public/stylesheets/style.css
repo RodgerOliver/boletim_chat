@@ -58,3 +58,9 @@ a.nav-item.nav-link:hover {
 .high {
 	background-color: #51e377!important;
 }
+
+/* Login Page */
+.form-auth {
+	width: 333px;
+	margin: 0 auto;
+}

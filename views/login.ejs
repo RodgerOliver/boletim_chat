@@ -1,0 +1,21 @@
+<% include partials/header %>
+
+<div class="container mt-5">
+	<h1 class="text-center mb-4">Login</h1>
+	<div class="form-auth">
+		<form action="/login" method="POST">
+			<div class="form-group">
+				<input class="form-control" type="text" name="username" placeholder="Nome de Usuário" autofocus required>
+			</div>
+			<div class="form-group">
+				<input class="form-control" type="password" name="password" placeholder="Senha" required>
+			</div>
+			<div class="form-group">
+				<input class="btn btn-md btn-primary btn-block" type="submit" value="Login">
+			</div>
+		</form>
+		<p class ="float-left"><a href="/register">Clique aqui</a> para se registrar</p>
+	</div>
+</div>
+
+<% include partials/footer %>
