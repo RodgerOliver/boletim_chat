@@ -28,27 +28,35 @@ function calcNotas() {
 
 	var soma = 0;
 	var inputClass = $(this).attr("class").replace(/\s.*/, "");
-	var control = true;
+	var length = Number($("input." + inputClass).length);
+	var inputKeyClicked = $(this).attr("name").match(/\[.*\]/)[0];
 
-	if($(this).val() !== "" && control) {
-		$("." + inputClass).each(function() {
+	if($(this).val() !== "" && Number($(this).val()) <= 10) {
+		$("input." + inputClass).each(function() {
+
+			var inputKey = $(this).attr("name").match(/\[.*\]/)[0];
 			var value = Number($(this).val());
-
-			if(value <= 10 || value === 0) {
-				soma += value;
-			} else {
-				$("#" + inputClass + "-result").text("Inválido");
-				control = false;
-			}
-
-			if(control) {
-				var result = soma/$("." + inputClass).length;
-				$("#" + inputClass + "-result").text(result);
-			}
+				if(inputKeyClicked === "[av1]" || inputKeyClicked === "[av2]" || inputKeyClicked === "[rec]") {
+					if(inputKey === "[av1]" || inputKey === "[av2]") {
+						var recInput = $("input." + inputClass + ".rec");
+						if(Number(recInput.val()) > Number($(this).val())) {
+							soma += Number(recInput.val());
+						} else {
+							soma += Number($(this).val());
+						}
+					} else {
+						soma += Number($(this).val());
+					}
+				}
+				if(inputKey === "[rec]") {
+					soma -= Number($(this).val());
+					var result = soma/($("input." + inputClass).length - 1);
+					$("td#" + inputClass + "-result").text(result);
+				}
 		});
 
 	} else {
-		$("#" + inputClass + "-result").text("Inválido");
+		$("td#" + inputClass + "-result").text("Inválido");
 		$(this).removeClass("low");
 		$(this).removeClass("high");
 	}

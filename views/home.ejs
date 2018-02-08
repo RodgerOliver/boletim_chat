@@ -13,6 +13,7 @@
 					<th scope="col">Avaliação 2</th>
 					<th scope="col">Trabalho 1</th>
 					<th scope="col">Trabalho 2</th>
+					<th scope="col">Recuperação</th>
 					<th scope="col">Média</th>
 				</tr>
 			</thead>
@@ -24,6 +25,7 @@
 					<td><input value="<%= Math.round(Math.random()*10) %>" form="salvar" name="<%= key %>[av2]" class="<%= key %>" type="number" min="0" max="10"></td>
 					<td><input value="<%= Math.round(Math.random()*10) %>" form="salvar" name="<%= key %>[tr1]" class="<%= key %>" type="number" min="0" max="10"></td>
 					<td><input value="<%= Math.round(Math.random()*10) %>" form="salvar" name="<%= key %>[tr2]" class="<%= key %>" type="number" min="0" max="10"></td>
+					<td><input value="<%= Math.round(Math.random()*10) %>" form="salvar" name="<%= key %>[rec]" class="<%= key %> rec" type="number" min="0" max="10"></td>
 					<td id="<%= key %>-result"></td>
 				</tr>
 				<% } %>
