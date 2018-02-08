@@ -48,6 +48,7 @@ function calcNotas() {
 				if(inputKey === "[rec]") {
 					soma -= Number($(this).val());
 					var result = soma/($("input." + inputClass).length - 1);
+					result = Math.floor(result * 10)/10;
 					result = result.toFixed(1);
 					$("td#" + inputClass + "-result").text(result);
 				}
