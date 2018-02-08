@@ -33,24 +33,22 @@ function calcNotas() {
 
 	if($(this).val() !== "" && Number($(this).val()) <= 10) {
 		$("input." + inputClass).each(function() {
-
 			var inputKey = $(this).attr("name").match(/\[.*\]/)[0];
 			var value = Number($(this).val());
-				if(inputKeyClicked === "[av1]" || inputKeyClicked === "[av2]" || inputKeyClicked === "[rec]") {
-					if(inputKey === "[av1]" || inputKey === "[av2]") {
-						var recInput = $("input." + inputClass + ".rec");
-						if(Number(recInput.val()) > Number($(this).val())) {
-							soma += Number(recInput.val());
-						} else {
-							soma += Number($(this).val());
-						}
+				if(inputKey === "[av1]" || inputKey === "[av2]") {
+					var recInput = $("input." + inputClass + ".rec");
+					if(Number(recInput.val()) > Number($(this).val())) {
+						soma += Number(recInput.val());
 					} else {
 						soma += Number($(this).val());
 					}
+				} else {
+					soma += Number($(this).val());
 				}
 				if(inputKey === "[rec]") {
 					soma -= Number($(this).val());
 					var result = soma/($("input." + inputClass).length - 1);
+					result = result.toFixed(1);
 					$("td#" + inputClass + "-result").text(result);
 				}
 		});
