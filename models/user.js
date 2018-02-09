@@ -1,16 +1,16 @@
-var passportLocalMongoose = require("passport-local-mongoose");
 var mongoose = require("mongoose");
+var passportLocalMongoose = require("passport-local-mongoose");
 
-var Schema = mongoose.Schema;
-var userSchema = new Schema({
+var userSchema = new mongoose.Schema({
 	username: String,
 	password: String,
-	boletim: String,
-	bimestre1: String,
-	bimestre2: String,
-	bimestre3: String,
-	bimestre4: String,
-});
+	bimestres: [
+		{
+			type: mongoose.Schema.Types.ObjectId,
+			ref: "Bimestre"
+		}
+	]
+}, {usePushEach: true});
 
 userSchema.plugin(passportLocalMongoose);
 module.exports = mongoose.model("User", userSchema);

@@ -19,15 +19,17 @@
 			</thead>
 			<tbody>
 				<% for(key in materias) { %>
+				<% if(dicionario.hasOwnProperty(key)) { %>
 				<tr>
-					<th scope="row"><%= materias[key] %></th>
-					<td><input value="<%= Math.round(Math.random()*10) %>" form="salvar" name="<%= key %>[av1]" class="<%= key %>" type="number" min="0" max="10"></td>
-					<td><input value="<%= Math.round(Math.random()*10) %>" form="salvar" name="<%= key %>[av2]" class="<%= key %>" type="number" min="0" max="10"></td>
-					<td><input value="<%= Math.round(Math.random()*10) %>" form="salvar" name="<%= key %>[tr1]" class="<%= key %>" type="number" min="0" max="10"></td>
-					<td><input value="<%= Math.round(Math.random()*10) %>" form="salvar" name="<%= key %>[tr2]" class="<%= key %>" type="number" min="0" max="10"></td>
-					<td><input value="<%= Math.round(Math.random()*10) %>" form="salvar" name="<%= key %>[rec]" class="<%= key %> rec" type="number" min="0" max="10"></td>
+					<th scope="row"><%= dicionario[key] %></th>
+					<td><input value="<%= materias[key]['av1'] %>" form="salvar" name="<%= key %>[av1]" class="<%= key %>" type="number" min="0" max="10"></td>
+					<td><input value="<%= materias[key]['av2'] %>" form="salvar" name="<%= key %>[av2]" class="<%= key %>" type="number" min="0" max="10"></td>
+					<td><input value="<%= materias[key]['tr1'] %>" form="salvar" name="<%= key %>[tr1]" class="<%= key %>" type="number" min="0" max="10"></td>
+					<td><input value="<%= materias[key]['tr2'] %>" form="salvar" name="<%= key %>[tr2]" class="<%= key %>" type="number" min="0" max="10"></td>
+					<td><input value="<%= materias[key]['rec'] %>" form="salvar" name="<%= key %>[rec]" class="<%= key %> rec" type="number" min="0" max="10"></td>
 					<td id="<%= key %>-result"></td>
 				</tr>
+				<% } %>
 				<% } %>
 			</tbody>
 		</table>

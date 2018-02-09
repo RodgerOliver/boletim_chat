@@ -55,7 +55,7 @@ function calcNotas() {
 		});
 
 	} else {
-		$("td#" + inputClass + "-result").text("Inválido");
+		$("td#" + inputClass + "-result").text("-");
 		$(this).removeClass("low");
 		$(this).removeClass("high");
 	}
