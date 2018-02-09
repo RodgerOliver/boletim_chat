@@ -16,7 +16,8 @@ var indexRoutes = require("./routes/index");
 app.set("view engine", "ejs");
 app.use(express.static(__dirname + "/public"));
 app.use(bodyParser.urlencoded({extended:true}));
-mongoose.connect("mongodb://localhost/boleChat");
+var url = process.env.DATABASEURL || "mongodb://localhost/boleChat";
+mongoose.connect(url);
 // ExpressSession Setup
 app.use(expressSession({
 	secret: "Parkour is the best sport ever",
