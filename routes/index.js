@@ -21,26 +21,23 @@ router.post("/register", function(req, res) {
 			return res.redirect("/register");
 		}
 		passport.authenticate("local")(req, res, function() {
-			var emptyMaterias = {};
-			for(var materia in materias) {
-				emptyMaterias[materia] = {};
-				emptyMaterias[materia]["av1"] = "";
-				emptyMaterias[materia]["av2"] = "";
-				emptyMaterias[materia]["tr1"] = "";
-				emptyMaterias[materia]["tr2"] = "";
-				emptyMaterias[materia]["rec"] = "";
-			}
-			Bimestre.create({ordem: 1, materias: emptyMaterias}, function(err, newBimestre) {
-				if(err) {
-					return res.redirect(register);
-				}
-				User.findOne({_id: req.user._id}, function(err, foundUser) {
+			User.findOne({_id: req.user._id}, function(err, foundUser) {
+				Bimestre.create({ordem: 1}, function(err, newBimestre) {
 					foundUser.bimestres.push(newBimestre);
-					foundUser.save(function(err, data) {
-						if(err) {
-							return res.redirect("/register");
-						}
-						res.redirect("/home");
+					Bimestre.create({ordem: 2}, function(err, newBimestre) {
+						foundUser.bimestres.push(newBimestre);
+						Bimestre.create({ordem: 3}, function(err, newBimestre) {
+							foundUser.bimestres.push(newBimestre);
+							Bimestre.create({ordem: 4}, function(err, newBimestre) {
+								foundUser.bimestres.push(newBimestre);
+								foundUser.save(function(err, data) {
+									if(err) {
+										return res.redirect("/redirect");
+									}
+									res.redirect("/home");
+								});
+							});
+						});
 					});
 				});
 			});
@@ -81,23 +78,29 @@ router.get("/home", isLoggedIn, function(req, res) {
 
 router.post("/salvar", isLoggedIn, function(req, res) {
 
-	var updateBimestre = {};
+	var updateBimestre = {materias: {}};
+	var ordem = Number(req.body.ordem);
 
 	for(var materia in materias) {
 		for(var input in req.body) {
 			if(materia === input) {
-				updateBimestre[materia] = req.body[materia];
+				updateBimestre["materias"][materia] = req.body[materia];
 			}
 		}
+	}
+	if(ordem > 1 && ordem < 5) {
+		updateBimestre["ordem"] = ordem;
+	} else {
+		updateBimestre["ordem"] = 1;
 	}
 
 	User.findOne({_id: req.user._id}, function(err, user) {
 		if(err) {
 			return res.redirect("back");
 		}
-		var bimestreId = user.bimestres[0];
-		Bimestre.findByIdAndUpdate(bimestreId, {materias: updateBimestre}, function(err, data) {
-			if (err) {
+		var bimestreId = user.bimestres[ordem-1];
+		Bimestre.findByIdAndUpdate(bimestreId, updateBimestre, function(err, data) {
+			if(err) {
 				return res.redirect("/home");
 			}
 			res.redirect("/home");

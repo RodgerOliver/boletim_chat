@@ -1,10 +1,22 @@
 <% include partials/header %>
 
 	<div class="container my-5">
-		<h1 class="mb-4 float-left">1º Bimestre</h1>
-		<form id="salvar" action="/salvar" method="POST">
-			<input value="Salvar" class="btn btn-success btn-lg float-right" type="submit" value="Salvar">
-		</form>
+		<div class="clearfix">
+			<h1 class="mb-4 float-left">1º Bimestre</h1>
+			<form id="salvar" action="/salvar" method="POST">
+				<input value="Salvar" class="btn btn-success btn-lg float-right" type="submit" value="Salvar">
+			</form>
+		</div>
+		<div class="row my-3">
+			<div class="col-12 text-center">
+				<select class="form-control" name="ordem" form="salvar">
+					<option value="1">1º Bimestre</option>
+					<option value="2">2º Bimestre</option>
+					<option value="3">3º Bimestre</option>
+					<option value="4">4º Bimestre</option>
+				</select>
+			</div>
+		</div>
 		<table class="table table-striped">
 			<thead>
 				<tr>
@@ -22,11 +34,11 @@
 				<% if(dicionario.hasOwnProperty(key)) { %>
 				<tr>
 					<th scope="row"><%= dicionario[key] %></th>
-					<td><input value="<%= materias[key]['av1'] %>" form="salvar" name="<%= key %>[av1]" class="<%= key %>" type="number" min="0" max="10"></td>
-					<td><input value="<%= materias[key]['av2'] %>" form="salvar" name="<%= key %>[av2]" class="<%= key %>" type="number" min="0" max="10"></td>
-					<td><input value="<%= materias[key]['tr1'] %>" form="salvar" name="<%= key %>[tr1]" class="<%= key %>" type="number" min="0" max="10"></td>
-					<td><input value="<%= materias[key]['tr2'] %>" form="salvar" name="<%= key %>[tr2]" class="<%= key %>" type="number" min="0" max="10"></td>
-					<td><input value="<%= materias[key]['rec'] %>" form="salvar" name="<%= key %>[rec]" class="<%= key %> rec" type="number" min="0" max="10"></td>
+					<td><input value="<%= materias[key] ? materias[key]['av1'] : '' %>" form="salvar" name="<%= key %>[av1]" class="<%= key %>" type="number" min="0" max="10"></td>
+					<td><input value="<%= materias[key] ? materias[key]['av2'] : '' %>" form="salvar" name="<%= key %>[av2]" class="<%= key %>" type="number" min="0" max="10"></td>
+					<td><input value="<%= materias[key] ? materias[key]['tr1'] : '' %>" form="salvar" name="<%= key %>[tr1]" class="<%= key %>" type="number" min="0" max="10"></td>
+					<td><input value="<%= materias[key] ? materias[key]['tr2'] : '' %>" form="salvar" name="<%= key %>[tr2]" class="<%= key %>" type="number" min="0" max="10"></td>
+					<td><input value="<%= materias[key] ? materias[key]['rec'] : '' %>" form="salvar" name="<%= key %>[rec]" class="<%= key %> rec" type="number" min="0" max="10"></td>
 					<td id="<%= key %>-result"></td>
 				</tr>
 				<% } %>
