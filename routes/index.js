@@ -111,17 +111,25 @@ router.post("/salvar", isLoggedIn, function(req, res) {
 router.get("/boletim", isLoggedIn, function(req, res) {
 
 	var media = {};
-	// media[edfisica] => OUTPUT: 10
-	User.findOne({_id: req.user._id}, function(err, user) {
-		Bimestre.findOne({_id: user.bimestres[0]}, function(err, bimestre) {
+	var num = 0;
+	User.findById(req.user._id).populate("bimestres").exec(function(err, data) {
+		if(err) {
+			return res.redirect("/home");
+		}
+		data.bimestres.forEach(function(bimestre) {
+			num++;
+			media[num] = {};
 			for(var materia in materias) {
-				for(var key in bimestre["materias"]) {
-					if(materia === key) {
-						var names = bimestre["materias"][key]
+				for(var key in bimestre.materias) {
+					if (key === materia) {
+						var names = bimestre.materias[materia];
 						var soma = 0;
-						var recCtrl = false;
 						var result = 0;
-						var length = Number(Object.keys(names).length);
+						if(typeof names === "object") {
+							var length = Number(Object.keys(names).length);
+						} else {
+							return;
+						}
 						for(var name in names) {
 							if(name === "av1" || name === "av2") {
 								if(Number(names["rec"]) > Number(names[name])) {
@@ -133,16 +141,15 @@ router.get("/boletim", isLoggedIn, function(req, res) {
 								soma += Number(names[name]);
 							}
 						}
-
 						soma -= Number(names["rec"]);
 						result = soma/(length-1);
 						result = (Math.round(result * 2) / 2).toFixed(1);
-						media[key] = result;
+						media[num][key] = result;
 					}
 				}
 			}
-			res.render("boletim", {media: media, materias: materias});
 		});
+		res.render("boletim", {media: media, materias: materias});
 	});
 });
 

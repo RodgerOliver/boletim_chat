@@ -1,7 +1,7 @@
 <% include partials/header %>
 
 	<div class="container mt-5">
-		<table class="table">
+		<table class="table table-striped">
 			<thead>
 				<tr>
 					<th scope="col">Disciplinas</th>
@@ -12,13 +12,13 @@
 				</tr>
 			</thead>
 			<tbody>
-				<% for(key in materias) { %>
+				<% for(var key in materias) { %>
 				<tr>
 					<th scope="row"><%= materias[key] %></th>
-					<td><%= media[key] %></td>
-					<td>-</td>
-					<td>-</td>
-					<td>-</td>
+					<td><%= media[1][key] !== '0.0' ? media[1][key] : "" %></td>
+					<td><%= media[2][key] !== '0.0' ? media[2][key] : "" %></td>
+					<td><%= media[3][key] !== '0.0' ? media[3][key] : "" %></td>
+					<td><%= media[4][key] !== '0.0' ? media[4][key] : "" %></td>
 				</tr>
 				<% } %>
 			</tbody>
