@@ -1,6 +1,10 @@
 /* NavBar Hover */
 a.nav-item.nav-link:hover {
-	font-weight: bold;
+	text-decoration: underline;
+}
+
+.welcome {
+	margin-left: -61.203px;
 }
 
 /* Align Table Content */
