@@ -76,6 +76,21 @@ router.get("/home", isLoggedIn, function(req, res) {
 	});
 });
 
+router.get("/bimestres.json", isLoggedIn, function(req, res) {
+	if (Number(req.query.bim) > 0 && Number(req.query.bim) < 5) {
+		var index = Number(req.query.bim)-1;
+		var bimestreId = req.user.bimestres[index];
+		Bimestre.findOne({_id: bimestreId, ordem: req.query.bim}, function(err, bimestre) {
+			if (err) {
+				return res.send(err);
+			}
+			res.send(bimestre.materias);
+		});
+	} else {
+		res.send("");
+	}
+});
+
 router.post("/salvar", isLoggedIn, function(req, res) {
 
 	var updateBimestre = {materias: {}};
