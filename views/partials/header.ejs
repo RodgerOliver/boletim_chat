@@ -31,3 +31,17 @@
 			</div>
 		</div>
 	</nav>
+
+	<% if(flashError && flashError.length > 0) { %>
+	<div class="container">
+		<div class="alert alert-danger mt-5" role="alert">
+			<%= flashError %>
+		</div>
+	</div>
+	<% } else if(flashSuccess && flashSuccess.length > 0) { %>
+	<div class="container">
+		<div class="alert alert-success mt-5" role="alert">
+			<%= flashSuccess %>
+		</div>
+	</div>
+	<% } %>

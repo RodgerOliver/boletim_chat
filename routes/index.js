@@ -18,6 +18,7 @@ router.post("/register", function(req, res) {
 	var password = req.body.password;
 	User.register(new User({username: username}), password, function(err, newUser) {
 		if(err) {
+			req.flash("error", err.message);
 			return res.redirect("/register");
 		}
 		passport.authenticate("local")(req, res, function() {
@@ -51,7 +52,9 @@ router.get("/login", function(req, res) {
 
 router.post("/login", passport.authenticate("local", {
 	successRedirect: "/home",
-	failureRedirect: "/login"
+	failureRedirect: "/login",
+	successFlash: true,
+	failureFlash: true
 }), function(req, res) {
 });
 
@@ -61,14 +64,17 @@ router.get("/logout", function(req, res) {
 });
 
 router.get("/home", isLoggedIn, function(req, res) {
-	User.findOne({_id: req.user._id}, function(err, user) {
+	User.findById(req.user._id, function(err, user) {
 		if(err) {
-			return res.send(err);
+			req.logout();
+			req.flash("error", "Usuário não encontrado, tente mais tarde.");
+			return res.redirect("/login");
 		}
 		var bimestreId = user.bimestres[0];
-		Bimestre.findOne(bimestreId, function(err, bimestre) {
-			if (err) {
-				return res.send(err);
+		Bimestre.findById(bimestreId, function(err, bimestre) {
+			if(err) {
+				req.flash("error", "Não foi possível encontrar seus dados, tente mais tarde.");
+				return res.render("home");
 			}
 			var valorMaterias = bimestre.materias;
 			res.render("home", {materias: valorMaterias, dicionario: materias});
@@ -82,7 +88,7 @@ router.get("/bimestres.json", isLoggedIn, function(req, res) {
 		var bimestreId = req.user.bimestres[index];
 		Bimestre.findOne({_id: bimestreId, ordem: req.query.bim}, function(err, bimestre) {
 			if (err) {
-				return res.send(err);
+				return res.send("");
 			}
 			res.send(bimestre.materias);
 		});
@@ -111,11 +117,13 @@ router.post("/salvar", isLoggedIn, function(req, res) {
 
 	User.findOne({_id: req.user._id}, function(err, user) {
 		if(err) {
+			req.flash("error", "Usuario não encontrado, tente mais tarde.");
 			return res.redirect("back");
 		}
 		var bimestreId = user.bimestres[ordem-1];
 		Bimestre.findByIdAndUpdate(bimestreId, updateBimestre, function(err, data) {
 			if(err) {
+				req.flash("error", "Não foi possivel atualizar seus dados, tente mais tarde.");
 				return res.redirect("/home");
 			}
 			res.redirect("/home");
@@ -129,6 +137,7 @@ router.get("/boletim", isLoggedIn, function(req, res) {
 	var num = 0;
 	User.findById(req.user._id).populate("bimestres").exec(function(err, data) {
 		if(err) {
+			req.flash("error", "Usuário não encontrado, tente mais tarde.");
 			return res.redirect("/home");
 		}
 		data.bimestres.forEach(function(bimestre) {

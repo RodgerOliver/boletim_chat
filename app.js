@@ -3,6 +3,7 @@ var	passportLocalMongoose	= require("passport-local-mongoose"),
 	expressSession			= require("express-session"),
 	localStrategy			= require("passport-local"),
 	User					= require("./models/user"),
+	flash					= require("connect-flash"),
 	bodyParser				= require("body-parser"),
 	mongoose				= require("mongoose"),
 	passport				= require("passport"),
@@ -30,6 +31,14 @@ app.use(passport.session());
 passport.use(new localStrategy(User.authenticate()));
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
+// Flash Setup
+app.use(flash());
+
+app.use(function(req, res, next) {
+	res.locals.flashError = req.flash("error");
+	res.locals.flashSuccess = req.flash("success");
+	next();
+});
 
 // routes
 app.use(indexRoutes);
