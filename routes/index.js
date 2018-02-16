@@ -14,9 +14,18 @@ router.get("/register", function(req, res) {
 });
 
 router.post("/register", function(req, res) {
-	var username = req.body.username;
-	var password = req.body.password;
-	User.register(new User({username: username}), password, function(err, newUser) {
+	if(req.body.password === req.body.password2) {
+		var password = req.body.password;
+	} else {
+		req.flash("error", "As senhas são diferentes, digite-as novamente.");
+		return res.redirect("/register");
+	}
+	var userRegistered = {
+		username: req.body.username,
+		surname: req.body.surname,
+		email: req.body.email
+	}
+	User.register(new User(userRegistered), password, function(err, newUser) {
 		if(err) {
 			req.flash("error", err.message);
 			return res.redirect("/register");
@@ -177,10 +186,40 @@ router.get("/boletim", isLoggedIn, function(req, res) {
 	});
 });
 
+router.get("/update", function(req, res) {
+	res.render("update");
+});
+
+router.post("/update", function(req, res) {
+	if(!req.isAuthenticated()) {
+		req.flash("error", "Para executar essa ação é necessário estar logado.");
+		return res.redirect("/login");
+	}
+	var userUpdated = {
+		username: req.body.username,
+		surname: req.body.surname,
+		email: req.body.email,
+	}
+
+	User.findByIdAndUpdate(req.user._id, userUpdated, function(err, user) {
+		if(err) {
+			req.flash("error", "Não foi possível atualizar seu cadastro, tente mais tarde.");
+			return res.redirect("/update");
+		}
+		req.flash("success", "Dados atualizados com sucesso.");
+		return res.redirect("/login");
+	});
+});
+
 function isLoggedIn(req, res, next) {
 	if(req.isAuthenticated()) {
-		return next();
+		if(req.user.surname || req.user.email) {
+			return next();
+		} else {
+			return res.redirect("/update");
+		}
 	}
+	req.flash("error", "Para executar essa ação é necessário estar logado.");
 	res.redirect("/login");
 }
 
