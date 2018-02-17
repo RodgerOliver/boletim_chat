@@ -213,7 +213,7 @@ router.post("/update", function(req, res) {
 
 function isLoggedIn(req, res, next) {
 	if(req.isAuthenticated()) {
-		if(req.user.surname || req.user.email) {
+		if(req.user.surname && req.user.email) {
 			return next();
 		} else {
 			return res.redirect("/update");
