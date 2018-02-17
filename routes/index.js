@@ -31,7 +31,7 @@ router.post("/register", function(req, res) {
 			return res.redirect("/register");
 		}
 		passport.authenticate("local")(req, res, function() {
-			User.findOne({_id: req.user._id}, function(err, foundUser) {
+			User.findById(req.user._id, function(err, foundUser) {
 				Bimestre.create({ordem: 1}, function(err, newBimestre) {
 					foundUser.bimestres.push(newBimestre);
 					Bimestre.create({ordem: 2}, function(err, newBimestre) {
@@ -219,7 +219,6 @@ function isLoggedIn(req, res, next) {
 			return res.redirect("/update");
 		}
 	}
-	req.flash("error", "Para executar essa ação é necessário estar logado.");
 	res.redirect("/login");
 }
 
